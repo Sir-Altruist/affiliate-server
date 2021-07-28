@@ -18,6 +18,10 @@ const ProductSchema = new Schema({
         type: Number,
         required: true
     },
+    rating: {
+        type: Number,
+        required: true
+    },
     productImg: {
         type: String,
         required: true

@@ -9,8 +9,8 @@ exports.upload_product = async (req, res) => {
     if (!client){
         return res.status(404).json({ msg: "The Client does not exist" })
     }
-    const { name, description, amount, commission } = req.body
-    if(!name || !description || !amount || !commission){
+    const { name, description, amount, commission, rating } = req.body
+    if(!name || !description || !amount || !commission || !rating){
         return res.status(400).json({msg: 'Please fill all fields'})
     }
         
@@ -19,6 +19,7 @@ exports.upload_product = async (req, res) => {
             description,
             amount,
             commission,
+            rating,
             productImg: 'http://localhost:5000/' + req.file.path.replace(/\\/g, "/"),
             client: clientId
         })
@@ -44,15 +45,15 @@ exports.get_all_products = (req, res) => {
         if(data.length < 1){
             return res.json({msg: 'No product has been added yet'})
         }
-        res.status(200).json({
-            count: data.length,
-            result: data.map(product => {
+        res.status(200).json(
+             data.map(product => {
                return {
                 _id: product._id,
                 name: product.name,
                 description: product.description,
                 amount: product.amount,
                 commission: product.commission,
+                rating: product.rating,
                 productImg: product.productImg,
                 link: {
                     type: 'GET',
@@ -60,7 +61,7 @@ exports.get_all_products = (req, res) => {
                 }
                }
             }) 
-        })
+        )
     })
     .catch(err => {
         res.status(500).json({
@@ -106,6 +107,7 @@ exports.edit_product = (req, res) => {
             product.description = req.body.description
             product.amount = req.body.amount
             product.commission = req.body.commission
+            product.rating = req.body.rating
 
             product.save()
             .then(data => {
