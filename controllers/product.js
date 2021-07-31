@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Product = require('../models/Product')
 const Client = require('../models/Client')
+const dotenv = require('dotenv').config()
 
 mongoose.Promise = global.Promise
 exports.upload_product = async (req, res) => {
@@ -9,18 +10,18 @@ exports.upload_product = async (req, res) => {
     if (!client){
         return res.status(404).json({ msg: "The Client does not exist" })
     }
-    const { name, description, amount, commission, rating } = req.body
-    if(!name || !description || !amount || !commission || !rating){
+    const { name, amount, commission, rating, productImg, description } = req.body
+    if(!name || !amount || !commission || !rating || !productImg ||  !description){
         return res.status(400).json({msg: 'Please fill all fields'})
     }
         
         const newProduct = new Product({
             name,
-            description,
             amount,
             commission,
             rating,
-            productImg: 'http://localhost:5000/' + req.file.path.replace(/\\/g, "/"),
+            productImg,
+            description,
             client: clientId
         })
         newProduct.save()
@@ -57,7 +58,8 @@ exports.get_all_products = (req, res) => {
                 productImg: product.productImg,
                 link: {
                     type: 'GET',
-                    url: 'http://localhost:5000/products/' + product._id
+                    url: process.env.NODE_ENV === 'production' ? process.env.NODE_ENV + product._id 
+                    : 'http://localhost:5000/' + product._id 
                 }
                }
             }) 

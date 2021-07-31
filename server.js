@@ -7,9 +7,10 @@ const signup = require('./routes/register')
 const signin = require('./routes/login')
 const dashboard = require('./routes/dashboard')
 const product = require('./routes/dashboard/product')
+const imageUpload = require('./routes/dashboard/imageUpload')
 const order = require('./routes/dashboard/order')
 const dotenv = require('dotenv').config()
-// const db = require('./database')
+
 
 
 
@@ -39,7 +40,7 @@ mongoose.connect(
 app.use(cors())
 
 //Middleware for processing form submission
-app.use('/uploads', express.static('uploads'))
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
@@ -50,6 +51,7 @@ app.use('/login', signin)
 app.use('/dashboard', dashboard)
 app.use('/products', product)
 app.use('/orders', order)
+app.use('/image', imageUpload)
 
 
 //Error reporting
