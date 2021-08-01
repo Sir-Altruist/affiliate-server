@@ -44,7 +44,7 @@ exports.get_all_products = (req, res) => {
     Product.find()
     .sort({ date: -1})
     .then(data => {
-        return res.status(200).send(
+        return res.status(200).json(
              data.map(product => {
                return {
                 _id: product._id,

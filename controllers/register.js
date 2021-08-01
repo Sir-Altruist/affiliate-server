@@ -38,7 +38,7 @@ exports.process_client_info = (req, res) => {
                         {expiresIn: 3600},
                         (err, token) => {
                             if(err) throw err;
-                            res.json({
+                            return res.json({
                                 token,
                                 user: {
                                     id: user.id,
@@ -50,7 +50,7 @@ exports.process_client_info = (req, res) => {
                     )
                 })
                 .catch(err => {
-                    res.status(500).json({
+                    return res.status(500).json({
                         error: err
                     })
                 })
@@ -94,7 +94,7 @@ exports.process_marketer_info = (req, res) => {
                     {expiresIn: 3600},
                     (err, token) => {
                         if(err) throw err;
-                        res.json({
+                        return res.json({
                             token,
                             user: {
                                 id: user.id,
@@ -108,7 +108,7 @@ exports.process_marketer_info = (req, res) => {
                 )
             })
             .catch(err => {
-                res.status(500).json({
+                return res.status(500).json({
                     error: err
                 })
             })

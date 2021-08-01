@@ -28,17 +28,17 @@ exports.create_orders = async (req, res) => {
         if(marketer.order){
             marketer.order.push(newOrder._id)
             marketer.save()
-                .then(response => 
-                    res.status(200).json({ 
+                .then(response => {
+                    return res.status(200).json({ 
                         status: true,
                         data: response
                      })
-                    )
+                })
         }
     })
     .catch(err => {
         console.log(err)
-        res.json(err)
+        return res.json(err)
     })
 }
     
@@ -52,7 +52,7 @@ exports.get_all_orders = (req, res) => {
         if(data.length < 1){
             return res.json({msg: 'No order has been made yet'})
         }
-        res.status(200).json({
+        return res.status(200).json({
             count: data.length,
             result: data.map(order => {
                 return {
@@ -68,7 +68,7 @@ exports.get_all_orders = (req, res) => {
         })
     })
     .catch(err => {
-        res.status(500).json({
+        return res.status(500).json({
             error: err
         })
     })
@@ -85,10 +85,10 @@ exports.get_single_order = (req, res) => {
                 message: 'Order Not Found!'
             })
         }
-        res.status(200).json(order)
+        return res.status(200).json(order)
     })
     .catch(err => {
-        res.status(500).json({
+        return res.status(500).json({
             error: err
         })
     })
@@ -100,7 +100,7 @@ exports.edit_order = (req, res) => {
     Order.findById(id)
     .then(single => {
         if(!single){
-            res.status(404).json({
+            return res.status(404).json({
                 message: `Order with the Id: ${id} cannot be found`
             })
         }else {
@@ -109,13 +109,13 @@ exports.edit_order = (req, res) => {
 
         single.save()
         .then(data => {
-            res.status(200).json({
+            return res.status(200).json({
                 message: 'Order updated successfully',
                 result: data
             })
         })
         .catch(err => {
-            res.status(500).json({
+            return res.status(500).json({
                  error: err
             })
         })
@@ -127,13 +127,13 @@ exports.delete_order = (req, res) => {
     const id = req.params.orderId
     Order.remove({_id: id})
     .then(success => {
-        res.status(200).json({
+        return res.status(200).json({
             message: 'Order deleted successfully',
             success
         })
     })
     .catch(err => {
-        res.status(500).json({
+        return res.status(500).json({
             error: err
         })
     })
