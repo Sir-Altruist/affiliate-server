@@ -27,13 +27,13 @@ exports.upload_product = async (req, res) => {
         })
         newProduct.save()
         .then(data => {
-            res.status(200).json({
+            return res.status(200).json({
                 message: 'Product added successfully',
                 result: data
             })
         })
         .catch(err => {
-            res.status(500).json({
+            return res.status(500).json({
                 error: err
             })
         })
@@ -44,7 +44,7 @@ exports.get_all_products = (req, res) => {
     Product.find()
     .sort({ date: -1})
     .then(data => {
-        return res.status(200).json(
+        return res.status(200).send(
              data.map(product => {
                return {
                 _id: product._id,
@@ -65,7 +65,7 @@ exports.get_all_products = (req, res) => {
         )
     })
     .catch(err => {
-        res.status(500).json({
+        return res.status(500).json({
             error: err
         })
     })
@@ -77,18 +77,18 @@ exports.get_single_product = (req, res) => {
     Product.findById(id)
     .then(data => {
         if(data){
-            res.status(200).json({
+            return res.status(200).json({
                 message: 'Product fetched successfully',
                 result: data
             })
         }else {
-            res.status(404).json({
+            return res.status(404).json({
                 message: "No valid entry found for provided ID"
             })
         }
     })
     .catch(err => {
-        res.status(500).json({
+        return res.status(500).json({
             error: err
         })
     })
@@ -100,7 +100,7 @@ exports.edit_product = (req, res) => {
     Product.findById(id)
     .then(product => {
         if(!product){
-            res.status(404).json({
+            return res.status(404).json({
                 message: `Product with the Id: ${id} cannot be found`
             })
         } else {
@@ -112,13 +112,13 @@ exports.edit_product = (req, res) => {
 
             product.save()
             .then(data => {
-                res.status(200).json({
+                return res.status(200).json({
                     message: 'Product details updated successfully',
                     result: data
                 })
             })
             .catch(err => {
-                res.status(500).json({
+                return res.status(500).json({
                      error: err
                 })
             })
@@ -131,13 +131,13 @@ exports.delete_product = (req, res) => {
     const id = req.params.productId
     Product.deleteOne({_id: id})
     .then(data => {
-        res.status(200).json({
+        return res.status(200).json({
             message: 'Product deleted successfully',
             result: data
         })
     })
     .catch(err => {
-        res.status(500).json({
+        return res.status(500).json({
              error: err
         })
     })
