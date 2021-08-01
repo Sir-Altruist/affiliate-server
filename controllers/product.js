@@ -44,6 +44,9 @@ exports.get_all_products = (req, res) => {
     Product.find()
     .sort({ date: -1})
     .then(data => {
+        if(data.length < 1){
+            return res.json({ msg: 'No product has been uploaded yet!'})
+        }
         return res.status(200).json(
              data.map(product => {
                return {
