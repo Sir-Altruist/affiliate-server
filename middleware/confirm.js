@@ -16,11 +16,11 @@ const confirm = (req, res, next) => {
             if(order){
                 next()
             }else {
-                res.status(404).json({msg: 'You are not authorized to perform this action!'})
+                return res.status(404).json({msg: 'You are not authorized to perform this action!'})
             }
         })
     } catch(err) {
-        res.status(400).json({ msg: 'Token is not valid'})
+        return res.status(400).json({ msg: 'Token is not valid'})
     }
 }
 
