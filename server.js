@@ -23,7 +23,7 @@ mongoose.Promise = global.Promise
 
 //connect to database
 mongoose.connect(
-  process.env.NODE_ENV === 'production' ? process.env.mongoURI_prod : process.env.mongoURI_dev, 
+  process.env.NODE_ENV === 'production' ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV, 
         {
             useUnifiedTopology: true,
             useNewUrlParser: true,

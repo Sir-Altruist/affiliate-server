@@ -3,6 +3,7 @@ const Product = require('../models/Product')
 const Client = require('../models/Client')
 const dotenv = require('dotenv').config()
 
+
 mongoose.Promise = global.Promise
 exports.upload_product = async (req, res) => {
     const clientId = req.params.clientId
@@ -58,8 +59,9 @@ exports.get_all_products = (req, res) => {
                 productImg: product.productImg,
                 link: {
                     type: 'GET',
-                    url: process.env.NODE_ENV === 'production' ? process.env.NODE_ENV + product._id 
-                    : 'http://localhost:5000/' + product._id 
+                    url: process.env.NODE_ENV === 'production' 
+                    ? process.env.PORT + product_id 
+                    : 'http://localhost:5000/' + product._id  
                 }
                }
             }) 
