@@ -22,8 +22,21 @@ mongoose.Promise = global.Promise
 
 
 // connect to database
-mongoose.connect(
-  process.env.NODE_ENV === 'production' ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV, 
+// mongoose.connect(
+//   process.env.NODE_ENV === 'production' ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV, 
+//         {
+//             useUnifiedTopology: true,
+//             useNewUrlParser: true,
+//             useCreateIndex: true
+//         })
+//         .then(() => {
+//             console.log('database connected successfully!')
+//         })
+//         .catch(err => {
+//             console.log(err)
+//         })
+
+mongoose.connect(process.env.MONGO_URI_PROD, 
         {
             useUnifiedTopology: true,
             useNewUrlParser: true,
