@@ -21,23 +21,9 @@ const PORT = process.env.PORT || 5000
 mongoose.Promise = global.Promise
 
 
-//connect to database
-// mongoose.connect(
-//   process.env.NODE_ENV === 'production' ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV, 
-//         {
-//             useUnifiedTopology: true,
-//             useNewUrlParser: true,
-//             useCreateIndex: true
-//         })
-//         .then(() => {
-//             console.log('database connected successfully!')
-//         })
-//         .catch(err => {
-//             console.log(err)
-//         })
 
-//trial
-mongoose.connect(process.env.MONGO_URI_PROD,
+mongoose.connect(
+  process.env.NODE_ENV === 'production' ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV, 
         {
             useUnifiedTopology: true,
             useNewUrlParser: true,
@@ -49,12 +35,26 @@ mongoose.connect(process.env.MONGO_URI_PROD,
         .catch(err => {
             console.log(err)
         })
+
+// //trial
+// mongoose.connect(process.env.MONGO_URI_PROD,
+//         {
+//             useUnifiedTopology: true,
+//             useNewUrlParser: true,
+//             useCreateIndex: true
+//         })
+//         .then(() => {
+//             console.log('database connected successfully!')
+//         })
+//         .catch(err => {
+//             console.log(err)
+//         })
         
 //allow cross-origin resource sharing 
 app.use(cors())
 
 //Middleware for processing form submission
-app.use('/uploads', express.static(path.join(__dirname, 'public')))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
