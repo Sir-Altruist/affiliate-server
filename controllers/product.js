@@ -47,25 +47,7 @@ exports.get_all_products = (req, res) => {
         if(data.length < 1){
             return res.json({ msg: 'No product has been uploaded yet!'})
         }
-        return res.status(200).json(
-             data.map(product => {
-               return {
-                _id: product._id,
-                name: product.name,
-                description: product.description,
-                amount: product.amount,
-                commission: product.commission,
-                rating: product.rating,
-                productImg: product.productImg,
-                link: {
-                    type: 'GET',
-                    url: process.env.NODE_ENV === 'production' 
-                    ? process.env.PORT + product_id 
-                    : 'http://localhost:5000/' + product._id  
-                }
-               }
-            }) 
-        )
+        return res.status(200).json(data)
     })
     .catch(err => {
         return res.status(500).json({

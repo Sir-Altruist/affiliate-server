@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 5000
 mongoose.Promise = global.Promise
 
 
-// connect to database
+//connect to database
 // mongoose.connect(
 //   process.env.NODE_ENV === 'production' ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV, 
 //         {
@@ -36,7 +36,8 @@ mongoose.Promise = global.Promise
 //             console.log(err)
 //         })
 
-mongoose.connect(process.env.MONGO_URI_PROD, 
+//trial
+mongoose.connect(process.env.MONGO_URI_PROD,
         {
             useUnifiedTopology: true,
             useNewUrlParser: true,
@@ -48,7 +49,6 @@ mongoose.connect(process.env.MONGO_URI_PROD,
         .catch(err => {
             console.log(err)
         })
-
         
 //allow cross-origin resource sharing 
 app.use(cors())
