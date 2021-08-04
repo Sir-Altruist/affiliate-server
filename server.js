@@ -9,6 +9,7 @@ const dashboard = require('./routes/dashboard')
 const product = require('./routes/dashboard/product')
 const imageUpload = require('./routes/dashboard/imageUpload')
 const order = require('./routes/dashboard/order')
+const password = require('./routes/password')
 const dotenv = require('dotenv').config()
 
 
@@ -35,22 +36,7 @@ mongoose.connect(
         .catch(err => {
             console.log(err)
         })
-
-// //trial
-// mongoose.connect(process.env.MONGO_URI_PROD,
-//         {
-//             useUnifiedTopology: true,
-//             useNewUrlParser: true,
-//             useCreateIndex: true
-//         })
-//         .then(() => {
-//             console.log('database connected successfully!')
-//         })
-//         .catch(err => {
-//             console.log(err)
-//         })
-        
-//allow cross-origin resource sharing 
+//Cross Origin Resource Sharing 
 app.use(cors())
 
 //Middleware for processing form submission
@@ -66,6 +52,7 @@ app.use('/dashboard', dashboard)
 app.use('/products', product)
 app.use('/orders', order)
 app.use('/image', imageUpload)
+app.use('/password-reset', password)
 
 
 //Error reporting
