@@ -24,12 +24,16 @@ exports.forgotPassword = async (req, res) => {
             id: user._id
         }
         const token = jwt.sign(payload, secret, {expiresIn: '15m'})
-        const link = process.env.NODE_ENV === 'production' 
-        ? `${process.env.NODE_ENV}/password-reset/${user._id}/${token}`
-        : `http://localhost:5000/password-reset/${user._id}/${token}`
-        console.log(link)
-        await sendEmail(user.email, 'Password reset', link)
-        console.log('Password reset link sent to your account')
+        const link = `${process.env.BASE_URL}/password-reset/${user._id}/${token}`
+        const emailSuccess = await sendEmail(
+        user.email, 
+        'Password reset', 
+        `Hi! click on the link ${link} to reset your password`, 
+        `<p>Hi! click <a href=${link}>here</a> to reset your password<p>`
+        )
+        if(emailSuccess){
+            return res.json({msg: 'A reset password sent'})
+        }
     } catch (error) {
         res.json(error)
     }

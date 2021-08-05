@@ -10,7 +10,7 @@ oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN })
 
 
 
-const sendEmail = async (email, subject, text) => {
+const sendEmail = async (email, subject, text, html) => {
     try {
         const accessToken = await oAuth2Client.getAccessToken() 
         const transporter = nodemailer.createTransport({
@@ -32,14 +32,11 @@ const sendEmail = async (email, subject, text) => {
             from: process.env.USER,
             to: email,
             subject,
-            text
+            text,
+            html, 
         }
-        await transporter.sendMail(mailOptions, (error, response) => {
-            error ? console.log(error) : console.log(response)
-            transporter.close()
-        })
-
-        console.log('email sent successfully')
+        const result = await transporter.sendMail(mailOptions)
+        return result
     } catch (error) {
         console.log(error, 'email not sent')
         res.json(error)
