@@ -1,40 +1,47 @@
 const nodemailer = require('nodemailer')
 const { google } = require('googleapis')
+const OAuth2 = google.auth.OAuth2
 const dotenv = require('dotenv').config()
 
 
 //google oauth
-const oAuth2Client = new google.auth.OAuth2(process.env.CLIENT_ID, process.env.CLIENT_SECRET, process.env.REDIRECT_URI)
+const oAuth2Client = new OAuth2(process.env.CLIENT_ID, process.env.CLIENT_SECRET, process.env.REDIRECT_URI)
 oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN })
+const accessToken = await oAuth2Client.getAccessToken() 
+
 
 
 const sendEmail = async (email, subject, text) => {
     try {
-        const accessToken = await oAuth2Client.getAccessToken() 
-        const transport = nodemailer.createTransport({
+        const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                type: 'oAuth2',
+                type: 'OAuth2',
                 user: process.env.USER,
                 clientId: process.env.CLIENT_ID,
                 clientSecret: process.env.CLIENT_SECRET,
                 refreshToken: process.env.REFRESH_TOKEN,
                 accessToken
+            },
+            tls: {
+                rejectUnauthorized: false
             }
         })
 
-        const result = await transport.sendMail({
+        const mailOptions = {
             from: process.env.USER,
             to: email,
             subject,
             text
-        })
-        if(result){
-            return res.status(200).json({msg: result})
-        } else {
-            return res.status(400).json({msg: 'Email not sent...'})
         }
+        await transporter.sendMail(mailOptions, (error, response) => {
+            error ? console.log(error) : console.log(response)
+            transporter.close()
+        })
+
+        console.log('email sent successfully')
     } catch (error) {
+        console.log(error, 'email not sent')
         res.json(error)
     }
 }

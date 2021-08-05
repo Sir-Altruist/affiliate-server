@@ -27,10 +27,9 @@ exports.forgotPassword = async (req, res) => {
         const link = process.env.NODE_ENV === 'production' 
         ? `${process.env.NODE_ENV}/password-reset/${user._id}/${token}`
         : `http://localhost:5000/password-reset/${user._id}/${token}`
-        const userEmail = await sendEmail(user.email, 'Password reset', link)
-        if(userEmail){
-            return res.json({msg: 'Password reset link sent to your email account'})
-        }
+        console.log(link)
+        await sendEmail(user.email, 'Password reset', link)
+        console.log('Password reset link sent to your account')
     } catch (error) {
         res.json(error)
     }
