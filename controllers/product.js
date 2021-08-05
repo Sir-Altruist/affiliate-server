@@ -28,8 +28,7 @@ exports.upload_product = async (req, res) => {
         newProduct.save()
         .then(data => {
             return res.status(200).json({
-                message: 'Product added successfully',
-                result: data
+                message: 'Product added successfully'
             })
         })
         .catch(err => {
@@ -63,7 +62,6 @@ exports.get_single_product = (req, res) => {
     .then(data => {
         if(data){
             return res.status(200).json({
-                message: 'Product fetched successfully',
                 result: data
             })
         }else {

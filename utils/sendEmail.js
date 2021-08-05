@@ -10,11 +10,11 @@ oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN })
 
 
 
-const sendEmail = async (email, subject, text, html) => {
+const sendEmail = async (email, subject, html, text) => {
     try {
         const accessToken = await oAuth2Client.getAccessToken() 
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            service: 'Gmail',
             auth: {
                 type: 'OAuth2',
                 user: process.env.USER,
@@ -32,8 +32,8 @@ const sendEmail = async (email, subject, text, html) => {
             from: process.env.USER,
             to: email,
             subject,
-            text,
-            html, 
+            html,
+            text     
         }
         const result = await transporter.sendMail(mailOptions)
         return result
