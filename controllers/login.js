@@ -34,7 +34,8 @@ exports.process_client_login = (req, res) => {
                             id: user.id,
                             username: user.username,
                             email: user.email  
-                        }
+                        },
+                        msg: `Successfully Logged In`
                     })
                 }
             )
@@ -76,7 +77,8 @@ exports.process_marketer_login = (req, res) => {
                             id: user.id,
                             username: user.username,
                             email: user.email  
-                        }
+                        },
+                        msg: `Successfully Logged In`
                     })
                 }
             )

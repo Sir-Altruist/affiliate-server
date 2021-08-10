@@ -28,13 +28,17 @@ exports.forgotPassword = async (req, res) => {
         const emailSuccess = await sendEmail(
         user.email, 
         'Password reset', 
-        `<p>Hi! click <a href=${link}>here</a> to reset your password<p>`,
+        `<p>Hi! click <a href='${link}'>here</a> to reset your password<p>`,
         `Hi! click on the link ${link} to reset your password`
         )
         if(emailSuccess){
-            return res.json({msg: 'A reset password sent'})
+            return res.json({msg: `A reset password sent to your mail. Click the link to continue: ${link}` })
         }
     } catch (error) {
         res.json(error)
     }
+}
+
+exports.resetPassword = (req, res) => {
+    res.send(req.params)
 }

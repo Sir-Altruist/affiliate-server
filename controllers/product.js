@@ -6,22 +6,24 @@ const dotenv = require('dotenv').config()
 
 mongoose.Promise = global.Promise
 exports.upload_product = async (req, res) => {
-    const clientId = req.params.clientId
+    const clientId = req.user.id
     const client = await Client.findById(clientId)
     if (!client){
         return res.status(404).json({ msg: "The Client does not exist" })
     }
-    const { name, amount, commission, rating, productImg, description } = req.body
-    if(!name || !amount || !commission || !rating || !productImg ||  !description){
+    const { name, amount, budget, commission, rating, productImg, link, description } = req.body
+    if(!name || !amount || !budget || !commission || !rating || !productImg || !link || !description){
         return res.status(400).json({msg: 'Please fill all fields'})
     }
         
         const newProduct = new Product({
             name,
             amount,
+            budget,
             commission,
             rating,
             productImg,
+            link,
             description,
             client: clientId
         })
@@ -38,13 +40,32 @@ exports.upload_product = async (req, res) => {
         })
 }
 
+//get products uploaded by a specific user
+exports.get_user_products = async (req, res) => {
+    try {
+        const clientId = req.params.clientId
+        const products = await Product.find({"client" : req.user.id }).sort({ date: -1})
+        if(!products){
+            console.log(products)
+            return res.status(404).json({msg: 'This user does not exist!'})
+        }
+        if(products.length < 1){
+            return res.status(200).json({msg: 'You are yet to upload any product!'}) 
+        } else {
+            return res.status(200).json(products)
+        } 
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 //get all products
 exports.get_all_products = (req, res) => {
     Product.find()
     .sort({ date: -1})
     .then(data => {
         if(data.length < 1){
-            return res.json({ msg: 'No product has been uploaded yet!'})
+            return res.status(200).json({ message: 'No product has been uploaded yet!'})
         }
         return res.status(200).json(data)
     })
@@ -54,6 +75,7 @@ exports.get_all_products = (req, res) => {
         })
     })
 }
+
 
 //get a single product
 exports.get_single_product = (req, res) => {
@@ -66,7 +88,7 @@ exports.get_single_product = (req, res) => {
             })
         }else {
             return res.status(404).json({
-                message: "No valid entry found for provided ID"
+                msg: "No valid entry found for provided ID"
             })
         }
     })
@@ -84,7 +106,7 @@ exports.edit_product = (req, res) => {
     .then(product => {
         if(!product){
             return res.status(404).json({
-                message: `Product with the Id: ${id} cannot be found`
+                msg: `Product with the provided Id cannot be found`
             })
         } else {
             product.name = req.body.name

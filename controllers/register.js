@@ -36,16 +36,9 @@ exports.process_client_info = (req, res) => {
                         {id: user.id},
                         process.env.SECRET_KEY,
                         {expiresIn: 3600},
-                        (err, token) => {
+                        (err) => {
                             if(err) throw err;
-                            return res.json({
-                                token,
-                                user: {
-                                    id: user.id,
-                                    username: user.username,
-                                    email: user.email
-                                }
-                            })
+                            return res.json({msg: 'Registeration Successful'})
                         }
                     )
                 })
@@ -92,18 +85,9 @@ exports.process_marketer_info = (req, res) => {
                     {id: user.id},
                     process.env.SECRET_KEY,
                     {expiresIn: 3600},
-                    (err, token) => {
+                    (err) => {
                         if(err) throw err;
-                        return res.json({
-                            token,
-                            user: {
-                                id: user.id,
-                                name: user.name,
-                                email: user.email,
-                                website: user.website,
-                                category: user.category 
-                            }
-                        })
+                        return res.json({msg: 'Registeration Successful'})
                     }
                 )
             })

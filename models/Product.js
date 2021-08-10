@@ -14,6 +14,10 @@ const ProductSchema = new Schema({
         type: Number,
         required: true
     },
+    budget: {
+        type: Number,
+        required: true
+    },
     commission: {
         type: Number,
         required: true
@@ -23,6 +27,10 @@ const ProductSchema = new Schema({
         required: true
     },
     productImg: {
+        type: String,
+        required: true
+    },
+    link: {
         type: String,
         required: true
     },
