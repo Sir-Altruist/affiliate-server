@@ -18,7 +18,6 @@ const OrderSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'marketer',
         required: true
-
     },
     date: {
         type: Date,

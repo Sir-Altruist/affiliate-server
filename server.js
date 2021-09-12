@@ -10,6 +10,7 @@ const product = require('./routes/dashboard/product')
 const imageUpload = require('./routes/dashboard/imageUpload')
 const order = require('./routes/dashboard/order')
 const password = require('./routes/password')
+const clicks = require('./routes/clicks')
 const dotenv = require('dotenv').config()
 
 
@@ -53,6 +54,7 @@ app.use('/products', product)
 app.use('/orders', order)
 app.use('/image', imageUpload)
 app.use('/password-reset', password)
+app.use('/clicks', clicks)
 
 
 //Error reporting

@@ -43,8 +43,8 @@ exports.upload_product = async (req, res) => {
 //get products uploaded by a specific user
 exports.get_user_products = async (req, res) => {
     try {
-        const clientId = req.params.clientId
-        const products = await Product.find({"client" : req.user.id }).sort({ date: -1})
+        const clientId = req.user.id
+        const products = await Product.find({"client" : clientId }).sort({ date: -1})
         if(!products){
             console.log(products)
             return res.status(404).json({msg: 'This user does not exist!'})
@@ -83,9 +83,7 @@ exports.get_single_product = (req, res) => {
     Product.findById(id)
     .then(data => {
         if(data){
-            return res.status(200).json({
-                result: data
-            })
+            return res.status(200).json(data)
         }else {
             return res.status(404).json({
                 msg: "No valid entry found for provided ID"
@@ -102,6 +100,10 @@ exports.get_single_product = (req, res) => {
 //edit product
 exports.edit_product = (req, res) => {
     const id = req.params.productId
+    const { name, amount, budget, commission, rating, productImg, link, description } = req.body
+    if(!name || !amount || !budget || !commission || !rating || !productImg || !link || !description){
+        return res.status(400).json({msg: 'Please fill all fields'})
+    }
     Product.findById(id)
     .then(product => {
         if(!product){
@@ -109,18 +111,18 @@ exports.edit_product = (req, res) => {
                 msg: `Product with the provided Id cannot be found`
             })
         } else {
-            product.name = req.body.name
-            product.description = req.body.description
-            product.amount = req.body.amount
-            product.commission = req.body.commission
-            product.rating = req.body.rating
+            product.name = name
+            product.amount = amount
+            product.budget = budget
+            product.commission = commission
+            product.rating = rating
+            product.productImg = productImg
+            product.link = link
+            product.description = description
 
             product.save()
             .then(data => {
-                return res.status(200).json({
-                    message: 'Product details updated successfully',
-                    result: data
-                })
+                return res.status(200).json({message: 'Product details updated successfully'})
             })
             .catch(err => {
                 return res.status(500).json({
@@ -136,10 +138,7 @@ exports.delete_product = (req, res) => {
     const id = req.params.productId
     Product.deleteOne({_id: id})
     .then(data => {
-        return res.status(200).json({
-            message: 'Product deleted successfully',
-            result: data
-        })
+        return res.status(200).json({msg: 'Product deleted successfully'})
     })
     .catch(err => {
         return res.status(500).json({
