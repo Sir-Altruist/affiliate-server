@@ -18,6 +18,7 @@ const dotenv = require('dotenv').config()
 
 
 //connect to a port
+const host = '0.0.0.0';
 const PORT = process.env.PORT || 5000
 
 mongoose.Promise = global.Promise
@@ -72,4 +73,4 @@ app.use((err, req, res, next) => {
   })
 })
 
-app.listen(PORT, () => console.log(`Server running on Port: ${PORT}`))
+app.listen(PORT, host, () => console.log(`Server running on Port: ${PORT}`))
