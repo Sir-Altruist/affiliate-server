@@ -30,7 +30,11 @@ const ProductSchema = new Schema({
         type: String,
         required: true
     },
-    link: {
+    link1: {
+        type: String,
+        required: true
+    },
+    link2: {
         type: String,
         required: true
     },

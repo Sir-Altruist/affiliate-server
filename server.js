@@ -41,7 +41,7 @@ mongoose.connect(
 app.use(cors())
 
 //Middleware for processing form submission
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 

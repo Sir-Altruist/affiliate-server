@@ -11,8 +11,8 @@ exports.upload_product = async (req, res) => {
     if (!client){
         return res.status(404).json({ msg: "The Client does not exist" })
     }
-    const { name, amount, budget, commission, rating, productImg, link, description } = req.body
-    if(!name || !amount || !budget || !commission || !rating || !productImg || !link || !description){
+    const { name, amount, budget, commission, rating, productImg, link1, link2, description } = req.body
+    if(!name || !amount || !budget || !commission || !rating || !productImg || !link1 ||!link2  || !description){
         return res.status(400).json({msg: 'Please fill all fields'})
     }
         
@@ -23,7 +23,8 @@ exports.upload_product = async (req, res) => {
             commission,
             rating,
             productImg,
-            link,
+            link1,
+            link2,
             description,
             client: clientId
         })
@@ -100,8 +101,8 @@ exports.get_single_product = (req, res) => {
 //edit product
 exports.edit_product = (req, res) => {
     const id = req.params.productId
-    const { name, amount, budget, commission, rating, productImg, link, description } = req.body
-    if(!name || !amount || !budget || !commission || !rating || !productImg || !link || !description){
+    const { name, amount, budget, commission, rating, productImg, link1, description } = req.body
+    if(!name || !amount || !budget || !commission || !rating || !productImg || !link1 || !description){
         return res.status(400).json({msg: 'Please fill all fields'})
     }
     Product.findById(id)
@@ -117,7 +118,7 @@ exports.edit_product = (req, res) => {
             product.commission = commission
             product.rating = rating
             product.productImg = productImg
-            product.link = link
+            product.link1 = link1
             product.description = description
 
             product.save()
