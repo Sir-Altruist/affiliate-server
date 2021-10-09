@@ -6,8 +6,8 @@ const dotenv = require('dotenv').config()
 
 //process client's info
 exports.process_client_info = (req, res) => {
-    const { username, email, password, confirm } = req.body
-    if(!username || !email || !password || !confirm){
+    const { name, username, email, phone, country, password, confirm } = req.body
+    if(!name || !username || !email || !phone || !country || !password || !confirm){
         return res.json({ msg: 'Please fill all fields'})
     }
     if(password != confirm){
@@ -20,8 +20,11 @@ exports.process_client_info = (req, res) => {
         if(user) return res.status(400).json({ msg: 'User already exist'})
 
         const newClient = new Client({
+            name,
             username,
             email,
+            phone,
+            country,
             password
         })
 
@@ -54,9 +57,9 @@ exports.process_client_info = (req, res) => {
 
 //process marketer's info
 exports.process_marketer_info = (req, res) => {
-    const { name, email, website, category, password, confirm } = req.body
-    if(!name || !email || !category || !password || !confirm){
-        return res.json({ msg: 'All fields are required except website field only'})
+    const { name, username, email, phone, country, password, confirm } = req.body
+    if(!name || !username || !email || !phone || !country || !password || !confirm){
+        return res.json({ msg: 'Please fill all fields'})
     }
     if(password != confirm){
         return res.json({msg: 'Passwords do not match'})
@@ -69,9 +72,10 @@ exports.process_marketer_info = (req, res) => {
         
     const newMarketer = new Marketer({
         name,
+        username,
         email,
-        website,
-        category,
+        phone,
+        country,
         password
     })
 

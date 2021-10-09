@@ -7,17 +7,21 @@ const MarketerSchema = new Schema({
         type: String,
         required: true
     },
+    username: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true,
         unique: true,
         match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     },
-    website: {
+    phone: {
         type: String,
         required: true
     },
-    category: {
+    country: {
         type: String,
         required: true
     },
@@ -25,14 +29,6 @@ const MarketerSchema = new Schema({
         type: String,
         required: true
     },
-    order: [
-        {
-            _id: Schema.Types.ObjectId,
-            type: Schema.Types.ObjectId,
-            ref: 'order'
-        }
-    ],
-
     date: {
         type: Date,
         default: Date.now
