@@ -1,5 +1,4 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const app = express()
 const cors = require('cors')
 const path = require('path')
@@ -11,37 +10,22 @@ const imageUpload = require('./routes/dashboard/imageUpload')
 const password = require('./routes/password')
 const clicks = require('./routes/clicks')
 const dotenv = require('dotenv').config()
+const mongodbConnection = require('./datasources/mongodb')
+
 
 
 
 
 
 //connect to a port
-const host = '0.0.0.0';
 const PORT = process.env.PORT || 5000
 
-mongoose.Promise = global.Promise
-
-
-
-mongoose.connect(
-  process.env.NODE_ENV === 'production' ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV, 
-        {
-            useUnifiedTopology: true,
-            useNewUrlParser: true,
-            useCreateIndex: true
-        })
-        .then(() => {
-            console.log('database connected successfully!')
-        })
-        .catch(err => {
-            console.log(err)
-        })
+// db connection
+mongodbConnection()
 //Cross Origin Resource Sharing 
 app.use(cors())
 
 //Middleware for processing form submission
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
@@ -71,4 +55,4 @@ app.use((err, req, res, next) => {
   })
 })
 
-app.listen(PORT, host, () => console.log(`Server running on Port: ${PORT}`))
+app.listen(PORT, () => console.log(`Server running on Port: ${PORT}`))
